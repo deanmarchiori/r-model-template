@@ -1,0 +1,9 @@
+^renv$
+^renv\.lock$
+^beachwatch\.Rproj$
+^\.Rproj\.user$
+^data-raw$
+^LICENSE\.md$
+^plumber.R$
+^vetiver_renv.lock$
+^Dockerfile$

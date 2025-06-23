@@ -1,0 +1,25 @@
+Package: beachwatch
+Title: Package to model Sydney beach water temps
+Version: 0.0.0.9000
+Authors@R: 
+    person("Dean", "Marchiori", , "deanmarchiori@gmail.com", role = c("aut", "cre"),
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: This package provides data and functions for the modelling of water temperature for Sydney beaches. 
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Depends: 
+    R (>= 3.5)
+LazyData: true
+Imports: 
+    dplyr,
+    ggplot2,
+    lubridate,
+    mgcv,
+    pins,
+    plumber,
+    vetiver
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3

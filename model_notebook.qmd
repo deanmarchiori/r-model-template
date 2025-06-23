@@ -1,0 +1,140 @@
+---
+title: "BeachWatch Model"
+format: html
+editor_options: 
+  chunk_output_type: console
+---
+
+This notebook reads in the NSW BeachWatch data and fits a model to predict water
+temperature at Sydney beaches. For more information see `help(train_data, package = beachwatch)`
+
+## Setup 
+
+```{r}
+# load r package dependencies
+library(dplyr)
+library(lubridate)
+library(mgcv)
+library(pins)
+library(vetiver)
+library(plumber)
+library(here)
+library(devtools)
+library(readr)
+library(yardstick)
+library(purrr)
+library(rapidoc)
+library(testthat)
+library(flexdashboard)
+library(plotly)
+library(beachwatch)
+library(tibble)
+
+# load all functions
+devtools::load_all()
+
+# register pins boards to save and version models
+deploy_board <- pins::board_folder(path = here("inst/deploy"))
+metrics_board <- pins::board_folder(path = here("inst/metrics"))
+
+```
+
+## Process data  
+
+This takes the raw downloaded `csv` data and transforms it for modelling. 
+
+```{r}
+water_raw <- read_csv(here("data-raw", "Waterquality1727670437021.csv"))
+
+water <- preprocess_data(water_raw)
+
+# test/train/validation split
+train_data <- water |>
+    postprocess_data() |>
+    filter(date < "2023-01-01")
+
+test_data <- water |>
+    postprocess_data() |>
+    filter(date >= "2023-01-01", date < "2024-01-01")
+
+validation_data <- water |>
+    postprocess_data() |>
+    filter(date >= "2024-01-01")
+
+# save data objects
+usethis::use_data(train_data, overwrite = TRUE)
+usethis::use_data(test_data, overwrite = TRUE)
+usethis::use_data(validation_data, overwrite = TRUE)
+
+```
+
+
+## Train Model 
+
+Fitting a GAM to predict Water Temperature.  
+
+```{r}
+mod_gam <- train(data = train_data)
+```
+
+## Test model
+
+Running predictions on a test set and calculating performance metrics. 
+```{r}
+predictions <- test(model = mod_gam, newdata = test_data)
+
+model_metrics <- metrics(predictions, truth = temp, estimate = pred)
+
+pin_write(metrics_board, model_metrics, "metrics")
+```
+
+### Save model 
+
+Saving and versioning the trained model
+
+```{r}
+v <- vetiver_model(
+    model = mod_gam,
+    description = "A model to predict water temp at Sydney beaches",
+    model_name = "sydney-beach-gam",
+    metadata = list(metrics = model_metrics),
+    versioned = TRUE,
+    save_prototype = data.frame(
+        month = 12,
+        hour = 6,
+        beach = factor("Bondi Beach", levels = levels(train_data$beach))
+    )
+)
+
+vetiver_pin_write(board = deploy_board, vetiver_model = v)
+```
+
+### Deployment 
+Create Deployment artifacts 
+
+```{r}
+vetiver_prepare_docker(
+    board = deploy_board,
+    name = "sydney-beach-gam",
+    docker_args = list(port = 8080),
+    path = here::here()
+)
+```
+
+## Monitoring 
+
+```{r}
+rmarkdown::render("inst/monitoring/monitoring.rmd")
+```
+
+
+## Model Card  
+
+```{r}
+rmarkdown::render("inst/model_card/model_card.rmd",
+    params = list(
+        name = "sydney-beach-gam",
+        board = pins::board_folder(path = here::here("inst/deploy"))
+    )
+)
+```

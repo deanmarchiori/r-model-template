@@ -1,0 +1,75 @@
+---
+title: "Model Card: Sydney Beach Water Temperature GAM"
+date: '`r Sys.Date()`'
+output: 
+  html_document
+params:
+    name: "sydney-beach-gam"
+    board: !r pins::board_folder(path = here::here("inst/deploy"))
+---
+
+```{r setup, include=FALSE}
+library(vetiver)
+library(pins)
+library(here)
+library(dplyr)
+
+knitr::opts_chunk$set(echo = FALSE)
+
+deploy_board <- pins::board_folder(path = here("inst/deploy"))
+
+v <- vetiver_pin_read(params$board, params$name)
+v_meta <- pin_meta(params$board, params$name)
+```
+
+A [model card](https://doi.org/10.1145/3287560.3287596) provides brief, transparent, responsible reporting for a trained machine learning model.
+
+## Model details
+
+- Developed by PERSON AND/OR TEAM
+- `r cli::pluralize("{v$description} using {ncol(v$prototype)} feature{?s}")`
+- More details about how model was developed and what it is predicting
+- More details on feature engineering and/or data preprocessing for model
+- Version `r v$metadata$version` of this model was published at `r v_meta$created`
+- Citation and/or license details for the model
+- If you have questions about this model, please contact PERSON@ORG.ORG
+
+## Intended use
+
+- The primary intended uses of this model are ...
+- The primary intended users of this model are ...
+- Some use cases are out of scope for this model, such as ...
+
+## Important aspects/factors
+
+- Aspects or factors (demographic, environmental, technical) that are relevant to the context of this model are ...
+- In evaluating this model, we examined aspects such as ...
+
+## Metrics
+
+- The metrics used to evaluate this model are ...
+- These metrics are computed via ...
+- We chose these metrics because ...
+
+## Training data & evaluation data
+
+- The training dataset for this model was ...
+- The training dataset for this model has the "prototype" or signature:
+
+    ```{r}
+    glimpse(v$prototype)
+    ```
+
+
+## Ethical considerations
+
+- We considered ...
+
+## Caveats & recommendations
+
+- This model does ...
+- This model does not ...
+- We recommend ...
+
+
+

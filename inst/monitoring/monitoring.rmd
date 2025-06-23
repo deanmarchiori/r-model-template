@@ -1,0 +1,86 @@
+---
+title: "Model Monitoring Dashboard"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: rows
+    vertical_layout: fill
+---
+
+```{r setup, include = FALSE}
+library(flexdashboard)
+library(vetiver)
+library(pins)
+library(plotly)
+library(here)
+library(beachwatch)
+library(tibble)
+library(purrr)
+
+knitr::opts_chunk$set(echo = FALSE)
+
+devtools::load_all()
+deploy_board <- pins::board_folder(path = here("inst/deploy"))
+metrics_board <- pins::board_folder(path = here("inst/metrics"))
+data(validation_data)
+```
+
+```{r load-vetiver-model, include = FALSE}
+# load model
+model <- vetiver::vetiver_pin_read(
+  board = deploy_board,
+  name = "sydney-beach-gam"
+)
+
+# load model metrics
+model_meta <- pin_meta(board = deploy_board, name = "sydney-beach-gam")
+
+# calculate inputs
+days_old <- difftime(Sys.Date(), as.Date(model_meta$created), units = "days")
+version <- model_meta$local$version
+metrics <- model_meta |>
+  pluck("user", "metrics") |>
+  as_tibble()
+
+# Attaches packages needed for prediction:
+attach_pkgs(model$metadata$required_pkgs)
+```
+
+
+### Model metadata  
+
+The current model is `r paste0(model_meta$title, ": ", model_meta$description)`.
+
+The current model version is `r version`.
+
+This model was published `r as.numeric(days_old)` days ago.
+
+```{r}
+knitr::kable(metrics)
+```
+
+```{r validation, include = FALSE}
+validation_predictions <- test(model = model$model, newdata = validation_data)
+
+monitoring_metrics <- vetiver_compute_metrics(validation_predictions, date, "month", temp, pred)
+
+vetiver_pin_metrics(metrics_board, monitoring_metrics, "metrics", overwrite = TRUE)
+```
+
+```{r}
+knitr::kable(head(validation_predictions, 20))
+```
+
+### Metrics over time
+
+```{r}
+p1 <- monitoring_metrics |>
+  vetiver_plot_metrics()
+
+p1 <- ggplotly(p1)
+hide_legend(p1)
+```
+
+
+
+
+

@@ -1,0 +1,26 @@
+file: sydney-beach-gam.rds
+file_size: 373778
+pin_hash: 5fd2b3d777718fb2
+type: rds
+title: 'sydney-beach-gam: a pinned list'
+description: A model to predict water temp at Sydney beaches
+tags: ~
+urls: ~
+created: 20250622T235519Z
+api_version: 1
+user:
+  metrics:
+    .metric:
+    - rmse
+    - rsq
+    - mae
+    .estimator:
+    - standard
+    - standard
+    - standard
+    .estimate:
+    - 1.2316356
+    - 0.8126509
+    - 0.9754636
+  required_pkgs: mgcv
+  renv_lock: ~

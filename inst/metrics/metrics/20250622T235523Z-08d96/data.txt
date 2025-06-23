@@ -1,0 +1,10 @@
+file: metrics.rds
+file_size: 544
+pin_hash: 08d96e6628dab266
+type: rds
+title: 'metrics: a pinned 30 x 5 data frame'
+description: ~
+tags: ~
+urls: ~
+created: 20250622T235523Z
+api_version: 1
