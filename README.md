@@ -11,7 +11,8 @@
 The goal of this repository is to act as a template demonstrating a full
 end to end MLOps style R project.
 
-The toy example is training a predictive model on a `csv` dataset. This
+The toy example is training a predictive model on a `csv` dataset that
+predicts water temperature throughout the year for Sydney beaches. This
 project addresses how you might want to structure this project to run in
 a ‘Production’ context.
 
@@ -64,8 +65,6 @@ This is a basic example of using the deployed outputs from this project.
 3.  To run it: `docker run -p 8080:8080 beach`
 
 The endpoint should now be live at <http://127.0.0.1:8080>
-
-![](img/demo.gif)
 
 ## Deployment
 
