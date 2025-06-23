@@ -1,3 +1,12 @@
+#' Preprocess data
+#'
+#' A function to perform custom pre-processing on raw data.
+#'
+#' @param data
+#'
+#' @return data frame or tibble
+#' @export
+#'
 preprocess_data <- function(data) {
     data |>
         janitor::clean_names() |>

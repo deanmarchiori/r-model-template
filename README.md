@@ -6,11 +6,37 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/deanmarchiori/r-model-template/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/deanmarchiori/r-model-template/actions/workflows/R-CMD-check.yaml)
-[![Codecov test
-coverage](https://codecov.io/gh/deanmarchiori/r-model-template/graph/badge.svg)](https://app.codecov.io/gh/deanmarchiori/r-model-template)
 <!-- badges: end -->
 
-The goal of beachwatch is to …
+The goal of this repository is to act as a template demonstrating a full
+end to end MLOps style R project.
+
+The toy example is training a predictive model on a `csv` dataset. This
+project addresses how you might want to structure this project to run in
+a ‘Production’ context.
+
+I go into more details in my workshop [Data Science Workflows in R An
+introduction to deploying production quality R
+code](https://datasciworkflows.netlify.app/).
+
+This includes:
+
+- Data import and cleaning with the `{tidyverse}`
+- Data documentation  
+- Documented R functions for processing and model training using
+  `{roxygen2}`
+- R package structure  
+- Model training and inference pipeline using `{quarto}`
+- Unit tests with `{testthat}`  
+- Monitoring dashboard in interactive rmarkdown and `{flexdashboard}`
+- Model card for documenting model ethics, decision and recommended use
+  cases  
+- Prediction API endpoint creation using `{plumber}`
+- Model versioning and metadata storage using `{vetiver}` and `{pins}`  
+- Fully containerized deployment using Docker
+- Dependency managment using `{renv}`
+- Project website and documentation using `{pkgdown}`  
+- Continuous Integration (CI) pipeline automated using Github Actions
 
 ## Installation
 
@@ -22,35 +48,28 @@ You can install the development version of beachwatch from
 pak::pak("deanmarchiori/r-model-template")
 ```
 
+Then run `devtools::install()`
+
+The model pipeline can be stepped through in `model_notebook.qmd`
+
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+This is a basic example of using the deployed outputs from this project.
 
-``` r
-library(beachwatch)
-## basic example code
-```
+1.  Clone the repository:
+    `git clone https://github.com/deanmarchiori/r-model-template.git`
 
-What is special about using `README.Rmd` instead of just `README.md`?
-You can include R chunks like so:
+2.  To build your docker image: `docker build -t beach .`
 
-``` r
-summary(cars)
-#>      speed           dist       
-#>  Min.   : 4.0   Min.   :  2.00  
-#>  1st Qu.:12.0   1st Qu.: 26.00  
-#>  Median :15.0   Median : 36.00  
-#>  Mean   :15.4   Mean   : 42.98  
-#>  3rd Qu.:19.0   3rd Qu.: 56.00  
-#>  Max.   :25.0   Max.   :120.00
-```
+3.  To run it: `docker run -p 8080:8080 beach`
 
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date. `devtools::build_readme()` is handy for this.
+The endpoint should now be live at <http://127.0.0.1:8080>
 
-You can also embed plots, for example:
+![](img/screenshot.webm)
 
-<img src="man/figures/README-pressure-1.png" width="100%" />
+## Deployment
 
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub and CRAN.
+To deploy this in a production context, the project can be easily
+extended to add a Continuous Deployment (CD) workflow in Github Action
+to build and push the Docker container to your preferred container hub,
+which can then be accessed and run by your production systems.
