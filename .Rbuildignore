@@ -7,3 +7,7 @@
 ^plumber.R$
 ^vetiver_renv.lock$
 ^Dockerfile$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^\.github$
