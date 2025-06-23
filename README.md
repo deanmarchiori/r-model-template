@@ -65,7 +65,7 @@ This is a basic example of using the deployed outputs from this project.
 
 The endpoint should now be live at <http://127.0.0.1:8080>
 
-<video src='img/screenshot.mov' width=180/> 
+![](img/demo.gif)
 
 ## Deployment
 
