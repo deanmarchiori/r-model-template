@@ -14,6 +14,7 @@ RUN apt-get update -qq && apt-get install -y --no-install-recommends \
   && apt-get clean
 
 COPY vetiver_renv.lock renv.lock
+COPY inst/deploy /opt/ml/inst/deploy
 RUN Rscript -e "install.packages('renv')"
 RUN Rscript -e "renv::restore()"
 COPY plumber.R /opt/ml/plumber.R
