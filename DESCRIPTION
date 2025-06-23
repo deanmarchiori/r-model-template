@@ -15,6 +15,7 @@ LazyData: true
 Imports: 
     dplyr,
     ggplot2,
+    janitor,
     lubridate,
     mgcv,
     pins,

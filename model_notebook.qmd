@@ -29,6 +29,7 @@ library(flexdashboard)
 library(plotly)
 library(beachwatch)
 library(tibble)
+library(janitor)
 
 # load all functions
 devtools::load_all()
