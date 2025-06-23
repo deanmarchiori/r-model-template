@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# beachwatch
+# r-model-template
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/deanmarchiori/r-model-template/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/deanmarchiori/r-model-template/actions/workflows/R-CMD-check.yaml)
@@ -70,7 +70,7 @@ This is a basic example of using the deployed outputs from this project.
 
 The endpoint should now be live at http://127.0.0.1:8080 
 
-![](img/screenshot.webm)
+![](./img/screenshot.mov)
 
 ## Deployment  
 

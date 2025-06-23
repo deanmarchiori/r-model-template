@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# beachwatch
+# r-model-template
 
 <!-- badges: start -->
 
@@ -65,7 +65,7 @@ This is a basic example of using the deployed outputs from this project.
 
 The endpoint should now be live at <http://127.0.0.1:8080>
 
-![](img/screenshot.webm)
+![](./img/screenshot.mov)
 
 ## Deployment
 
