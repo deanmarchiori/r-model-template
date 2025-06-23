@@ -49,7 +49,38 @@
 </h1></div>
 <!-- badges: start -->
 
-<p>The goal of beachwatch is to …</p>
+<p>The goal of this repository is to act as a template demonstrating a full end to end MLOps style R project.</p>
+<p>The toy example is training a predictive model on a <code>csv</code> dataset. This project addresses how you might want to structure this project to run in a ‘Production’ context.</p>
+<p>I go into more details in my workshop <a href="https://datasciworkflows.netlify.app/" class="external-link">Data Science Workflows in R An introduction to deploying production quality R code</a>.</p>
+<p>This includes:</p>
+<ul>
+<li>Data import and cleaning with the <a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a>
+</li>
+<li>Data documentation<br>
+</li>
+<li>Documented R functions for processing and model training using <a href="https://roxygen2.r-lib.org/" class="external-link">roxygen2</a>
+</li>
+<li>R package structure<br>
+</li>
+<li>Model training and inference pipeline using <a href="https://github.com/quarto-dev/quarto-r" class="external-link">quarto</a>
+</li>
+<li>Unit tests with <a href="https://testthat.r-lib.org" class="external-link">testthat</a><br>
+</li>
+<li>Monitoring dashboard in interactive rmarkdown and <a href="https://pkgs.rstudio.com/flexdashboard/" class="external-link">flexdashboard</a>
+</li>
+<li>Model card for documenting model ethics, decision and recommended use cases<br>
+</li>
+<li>Prediction API endpoint creation using <a href="https://www.rplumber.io" class="external-link">plumber</a>
+</li>
+<li>Model versioning and metadata storage using <a href="https://vetiver.rstudio.com" class="external-link">vetiver</a> and <a href="https://pins.rstudio.com/" class="external-link">pins</a><br>
+</li>
+<li>Fully containerized deployment using Docker</li>
+<li>Dependency managment using <a href="https://rstudio.github.io/renv/" class="external-link">renv</a>
+</li>
+<li>Project website and documentation using <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a><br>
+</li>
+<li>Continuous Integration (CI) pipeline automated using Github Actions</li>
+</ul>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -57,28 +88,25 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("pak")</span></span>
 <span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"deanmarchiori/r-model-template"</span><span class="op">)</span></span></code></pre></div>
+<p>Then run <code>devtools::install()</code></p>
+<p>The model pipeline can be stepped through in <code>model_notebook.qmd</code></p>
 </div>
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
-<p>This is a basic example which shows you how to solve a common problem:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://deanmarchiori.github.io/r-model-template/">beachwatch</a></span><span class="op">)</span></span>
-<span><span class="co">## basic example code</span></span></code></pre></div>
-<p>What is special about using <code>README.Rmd</code> instead of just <code>README.md</code>? You can include R chunks like so:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">cars</span><span class="op">)</span></span>
-<span><span class="co">#&gt;      speed           dist       </span></span>
-<span><span class="co">#&gt;  Min.   : 4.0   Min.   :  2.00  </span></span>
-<span><span class="co">#&gt;  1st Qu.:12.0   1st Qu.: 26.00  </span></span>
-<span><span class="co">#&gt;  Median :15.0   Median : 36.00  </span></span>
-<span><span class="co">#&gt;  Mean   :15.4   Mean   : 42.98  </span></span>
-<span><span class="co">#&gt;  3rd Qu.:19.0   3rd Qu.: 56.00  </span></span>
-<span><span class="co">#&gt;  Max.   :25.0   Max.   :120.00</span></span></code></pre></div>
-<p>You’ll still need to render <code>README.Rmd</code> regularly, to keep <code>README.md</code> up-to-date. <code>devtools::build_readme()</code> is handy for this.</p>
-<p>You can also embed plots, for example:</p>
-<p><img src="reference/figures/README-pressure-1.png" width="100%"></p>
-<p>In that case, don’t forget to commit and push the resulting figure files, so they display on GitHub and CRAN.</p>
+<p>This is a basic example of using the deployed outputs from this project.</p>
+<ol style="list-style-type: decimal">
+<li><p>Clone the repository: <code>git clone https://github.com/deanmarchiori/r-model-template.git</code></p></li>
+<li><p>To build your docker image: <code>docker build -t beach .</code></p></li>
+<li><p>To run it: <code>docker run -p 8080:8080 beach</code></p></li>
+</ol>
+<p>The endpoint should now be live at <a href="http://127.0.0.1:8080" class="external-link uri">http://127.0.0.1:8080</a></p>
+<p><video src="img/screenshot.webm" controls=""><a href="img/screenshot.webm">Video</a></video></p>
+</div>
+<div class="section level2">
+<h2 id="deployment">Deployment<a class="anchor" aria-label="anchor" href="#deployment"></a>
+</h2>
+<p>To deploy this in a production context, the project can be easily extended to add a Continuous Deployment (CD) workflow in Github Action to build and push the Docker container to your preferred container hub, which can then be accessed and run by your production systems.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="license">
@@ -109,7 +137,6 @@
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://github.com/deanmarchiori/r-model-template/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/deanmarchiori/r-model-template/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
-<li><a href="https://app.codecov.io/gh/deanmarchiori/r-model-template" class="external-link"><img src="https://codecov.io/gh/deanmarchiori/r-model-template/graph/badge.svg" alt="Codecov test coverage"></a></li>
 </ul>
 </div>
 
